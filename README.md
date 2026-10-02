@@ -130,6 +130,6 @@ for item in client.dataset(run["defaultDatasetId"]).iterate_items():
 - Copyright / robots: you are responsible for lawful use of source assets you optimize
 - Not a “scrape any website’s images” tool — designed for owned or permitted URL lists and optimization pipelines
 
-## License
+## License & source code
 
-AGPL-3.0 (see `LICENSE`). Runtime stack: `httpx` (BSD), `Pillow` (MIT-CMU), Apify SDK.
+This Actor is open source under the **GNU Affero General Public License v3.0 (AGPL-3.0)** — see `LICENSE`. Runtime stack: `httpx` (BSD), `Pillow` (MIT-CMU), Apify SDK. The full source code is public: https://github.com/xbox002000/batch-image-compress
