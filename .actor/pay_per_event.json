@@ -1,0 +1,18 @@
+{
+    "apify-actor-start": {
+        "eventTitle": "Actor start",
+        "eventDescription": "Charged once per run (Apify synthetic start event; priced per GB of run memory, 1 GB minimum). Target ~$0.001 for a typical 512 MB–1 GB start.",
+        "eventPriceUsd": 0.001
+    },
+    "image-converted": {
+        "eventTitle": "Image converted",
+        "eventDescription": "Charged once per image successfully compressed/converted and stored in the key-value store with a metadata dataset row. Failed/non-image/oversized/duplicate rows are free unless chargeFailedImages is enabled.",
+        "eventPriceUsd": 0.002,
+        "isPrimaryEvent": true
+    },
+    "image-strip-only": {
+        "eventTitle": "Image strip-only",
+        "eventDescription": "Optional cheaper event when stripOnly is enabled: metadata (EXIF/GPS) stripped and re-saved without pixel re-encode. Only charged for successful strip-only stores.",
+        "eventPriceUsd": 0.001
+    }
+}

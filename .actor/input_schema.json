@@ -1,0 +1,205 @@
+{
+  "title": "Batch image compress / convert input",
+  "description": "Provide image URLs and/or an upstream Apify dataset / KV store (compatible with batch-image-downloader output fields: sourceUrl, kvKey). Re-encodes to WebP/JPEG/PNG (AVIF is runtime optional / currently unavailable on this runtime). Optional EXIF strip. Batch optimization pipeline \u2014 not site crawling or img scraping.",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "imageUrls": {
+      "title": "Image URLs",
+      "type": "array",
+      "description": "Direct image URLs to download and compress. Accepts strings, {\"url\": \"...\"}, or requestListSources-style entries. Deduplicated, order preserved. No page crawl \u2014 pass image URLs only.",
+      "editor": "requestListSources",
+      "prefill": [
+        {
+          "url": "https://www.w3.org/Icons/w3c_home.png"
+        },
+        {
+          "url": "https://httpbin.org/image/jpeg"
+        },
+        {
+          "url": "https://httpbin.org/image/png"
+        }
+      ],
+      "sectionCaption": "Input"
+    },
+    "sourceDatasetId": {
+      "title": "Source dataset ID",
+      "type": "string",
+      "description": "Optional Apify dataset ID (e.g. from batch-image-downloader). Reads image URLs from each item via imageUrlField (default sourceUrl, then url). If sourceKvStoreId is also set and items have kvKey, prefers KV bytes over re-download.",
+      "editor": "textfield",
+      "sectionCaption": "Input"
+    },
+    "sourceKvStoreId": {
+      "title": "Source KV store ID",
+      "type": "string",
+      "description": "Optional key-value store ID holding already-downloaded images. Used with sourceDatasetId rows that include kvKey, or with kvKeyPrefix to list matching keys.",
+      "editor": "textfield"
+    },
+    "imageUrlField": {
+      "title": "Dataset URL field",
+      "type": "string",
+      "description": "Field name on sourceDatasetId items that holds the image URL. Default sourceUrl (batch-image-downloader). Falls back to url / imageUrl.",
+      "default": "sourceUrl",
+      "editor": "textfield"
+    },
+    "kvKeyField": {
+      "title": "Dataset KV key field",
+      "type": "string",
+      "description": "Field on sourceDatasetId items naming the binary in sourceKvStoreId. Default kvKey.",
+      "default": "kvKey",
+      "editor": "textfield"
+    },
+    "targetFormat": {
+      "title": "Target format",
+      "type": "string",
+      "description": "Output image format. avif is used when the runtime supports it; otherwise the run marks those rows as error (free) unless you choose another format. keep = same family as source (jpeg/png/webp) with re-encode.",
+      "editor": "select",
+      "enum": [
+        "webp",
+        "jpeg",
+        "png",
+        "avif",
+        "keep"
+      ],
+      "enumTitles": [
+        "WebP",
+        "JPEG",
+        "PNG",
+        "AVIF (if supported)",
+        "Keep (re-encode same family)"
+      ],
+      "default": "webp",
+      "prefill": "webp",
+      "sectionCaption": "Transform"
+    },
+    "quality": {
+      "title": "Quality",
+      "type": "integer",
+      "description": "Quality 1\u201395 for WebP / JPEG / AVIF (ignored for PNG).",
+      "default": 80,
+      "prefill": 80,
+      "minimum": 1,
+      "maximum": 95
+    },
+    "maxWidth": {
+      "title": "Max width (px)",
+      "type": "integer",
+      "description": "If > 0, downscale so width \u2264 this (keeps aspect ratio). 0 = no resize.",
+      "default": 0,
+      "minimum": 0,
+      "maximum": 20000
+    },
+    "maxHeight": {
+      "title": "Max height (px)",
+      "type": "integer",
+      "description": "If > 0, downscale so height \u2264 this (keeps aspect ratio). 0 = no resize.",
+      "default": 0,
+      "minimum": 0,
+      "maximum": 20000
+    },
+    "stripExif": {
+      "title": "Strip EXIF / GPS",
+      "type": "boolean",
+      "description": "Remove EXIF and GPS metadata from the output (privacy). On by default for convert mode.",
+      "default": true,
+      "prefill": true,
+      "sectionCaption": "Transform"
+    },
+    "stripOnly": {
+      "title": "Strip-only (no re-encode)",
+      "type": "boolean",
+      "description": "When on, only strip metadata and re-save in the source format (cheaper image-strip-only event). Ignores targetFormat / quality / resize.",
+      "default": false,
+      "prefill": false
+    },
+    "maxImages": {
+      "title": "Max images",
+      "type": "integer",
+      "description": "Stop after processing this many unique images (0 = no limit). Caps cost.",
+      "default": 500,
+      "prefill": 50,
+      "minimum": 0,
+      "maximum": 100000,
+      "sectionCaption": "Limits"
+    },
+    "maxBytesPerImage": {
+      "title": "Max bytes per source image",
+      "type": "integer",
+      "description": "Skip (free) sources larger than this many bytes. Default 15 MB.",
+      "default": 15728640,
+      "minimum": 1024,
+      "maximum": 104857600,
+      "sectionCaption": "Limits"
+    },
+    "maxConcurrency": {
+      "title": "Max concurrency",
+      "type": "integer",
+      "description": "Parallel downloads / converts. Keep moderate to stay within 256\u2013512 MB.",
+      "default": 4,
+      "minimum": 1,
+      "maximum": 20,
+      "sectionCaption": "Politeness & robustness"
+    },
+    "requestTimeoutSecs": {
+      "title": "Request timeout (seconds)",
+      "type": "integer",
+      "description": "Timeout per HTTP download.",
+      "default": 30,
+      "minimum": 5,
+      "maximum": 120
+    },
+    "maxRetries": {
+      "title": "Max retries",
+      "type": "integer",
+      "description": "Retries for transient network / 5xx failures.",
+      "default": 2,
+      "minimum": 0,
+      "maximum": 5
+    },
+    "minDelayMsPerHost": {
+      "title": "Min delay per host (ms)",
+      "type": "integer",
+      "description": "Minimum milliseconds between starting downloads to the same host. 0 = no extra delay.",
+      "default": 50,
+      "minimum": 0,
+      "maximum": 10000
+    },
+    "userAgent": {
+      "title": "User-Agent",
+      "type": "string",
+      "description": "HTTP User-Agent for image downloads.",
+      "default": "Mozilla/5.0 (compatible; BatchImageCompress/0.1; +https://apify.com)",
+      "editor": "textfield"
+    },
+    "skipDuplicatesByHash": {
+      "title": "Skip duplicate output (sha256)",
+      "type": "boolean",
+      "description": "If on, identical output bytes after the first success are recorded as status=duplicate (free) and not re-stored.",
+      "default": true,
+      "prefill": true,
+      "sectionCaption": "Output"
+    },
+    "kvKeyPrefix": {
+      "title": "KV key prefix",
+      "type": "string",
+      "description": "Prefix for stored file keys, e.g. opt- \u2192 opt-<sha256>.<ext>. Only a-zA-Z0-9!-_.'() allowed (no slashes).",
+      "default": "opt-",
+      "editor": "textfield"
+    },
+    "proxyConfiguration": {
+      "title": "Proxy configuration",
+      "type": "object",
+      "description": "Optional Apify Proxy. Off by default \u2014 use only when sources require it.",
+      "editor": "proxy",
+      "sectionCaption": "Proxy"
+    },
+    "chargeFailedImages": {
+      "title": "Charge failed images",
+      "type": "boolean",
+      "description": "When off (default), only successful KV stores are charged. Failed/non-image/oversized/duplicate rows are saved free.",
+      "default": false,
+      "prefill": false,
+      "sectionCaption": "Pricing behaviour"
+    }
+  }
+}

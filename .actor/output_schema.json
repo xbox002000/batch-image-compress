@@ -1,0 +1,31 @@
+{
+    "actorOutputSchemaVersion": 1,
+    "title": "Batch image compress output",
+    "description": "Optimized image files in the default key-value store plus one dataset item per attempted image (metadata with bytesBefore/After, savedPct). SUMMARY/OUTPUT JSON in KV.",
+    "properties": {
+        "results": {
+            "type": "string",
+            "title": "Compress metadata",
+            "description": "Default dataset items: sourceUrl, status, format, contentType, bytesBefore, bytesAfter, savedPct, width, height, sha256, kvKey, strippedExif, errors, durationMs. Views: overview.",
+            "template": "{{links.apiDefaultDatasetUrl}}/items?view=overview"
+        },
+        "images": {
+            "type": "string",
+            "title": "Optimized images (KV)",
+            "description": "Binary image records under the configured kvKeyPrefix (default opt-).",
+            "template": "{{links.apiDefaultKeyValueStoreUrl}}/records"
+        },
+        "summary": {
+            "type": "string",
+            "title": "SUMMARY report",
+            "description": "Key-value store record SUMMARY (JSON): counts, charged, durationSecs, peakMemoryMb, avifSupported.",
+            "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/SUMMARY"
+        },
+        "output": {
+            "type": "string",
+            "title": "Run summary (OUTPUT)",
+            "description": "Key-value store record OUTPUT (JSON): same run summary as SUMMARY plus charged event counts.",
+            "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/OUTPUT"
+        }
+    }
+}

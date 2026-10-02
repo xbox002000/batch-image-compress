@@ -1,0 +1,28 @@
+{
+  "actorSpecification": 1,
+  "name": "batch-image-compress",
+  "title": "Batch Image Compress & Convert \u2014 WebP/JPEG/PNG",
+  "description": "Batch WebP/JPEG/PNG optimization pipeline for image URL lists (or batch-image-downloader dataset/KV fields). Outputs KV files plus bytesBefore/After, savedPct, dims, sha256. Optional EXIF/GPS strip. Failed/non-image free. AVIF is runtime optional / currently unavailable on this runtime \u2014 not a selling point. No crawl \u2014 differentiate from downloader.",
+  "version": "0.1",
+  "buildTag": "latest",
+  "minMemoryMbytes": 256,
+  "maxMemoryMbytes": 2048,
+  "defaultRunOptions": {
+    "build": "latest",
+    "memoryMbytes": 512,
+    "timeoutSecs": 3600
+  },
+  "input": "./input_schema.json",
+  "output": "./output_schema.json",
+  "storages": {
+    "dataset": "./dataset_schema.json"
+  },
+  "dockerfile": "../Dockerfile",
+  "readme": "../README.md",
+  "changelog": "../CHANGELOG.md",
+  "categories": [
+    "DEVELOPER_TOOLS",
+    "AI",
+    "AUTOMATION"
+  ]
+}

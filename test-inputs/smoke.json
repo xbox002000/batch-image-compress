@@ -1,0 +1,13 @@
+{
+  "imageUrls": [
+    { "url": "https://www.w3.org/Icons/w3c_home.png" },
+    { "url": "https://httpbin.org/image/jpeg" },
+    { "url": "https://httpbin.org/status/404" }
+  ],
+  "targetFormat": "webp",
+  "quality": 80,
+  "stripExif": true,
+  "maxImages": 10,
+  "maxConcurrency": 3,
+  "skipDuplicatesByHash": true
+}

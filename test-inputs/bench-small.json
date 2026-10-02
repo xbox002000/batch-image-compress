@@ -1,0 +1,22 @@
+{
+  "imageUrls": [
+    { "url": "https://www.w3.org/Icons/w3c_home.png" },
+    { "url": "https://www.w3.org/Icons/w3c_main.png" },
+    { "url": "https://httpbin.org/image/jpeg" },
+    { "url": "https://httpbin.org/image/png" },
+    { "url": "https://httpbin.org/image/webp" },
+    { "url": "https://picsum.photos/id/10/400/300" },
+    { "url": "https://picsum.photos/id/20/400/300" },
+    { "url": "https://picsum.photos/id/30/400/300" },
+    { "url": "https://picsum.photos/id/40/400/300" },
+    { "url": "https://picsum.photos/id/50/400/300" },
+    { "url": "https://httpbin.org/status/404" },
+    { "url": "https://httpbin.org/html" }
+  ],
+  "targetFormat": "webp",
+  "quality": 80,
+  "stripExif": true,
+  "maxImages": 20,
+  "maxConcurrency": 4,
+  "skipDuplicatesByHash": true
+}

@@ -1,0 +1,46 @@
+{
+    "actorSpecification": 1,
+    "fields": {},
+    "views": {
+        "overview": {
+            "title": "Compress overview",
+            "transformation": {
+                "fields": [
+                    "sourceUrl",
+                    "status",
+                    "format",
+                    "contentType",
+                    "bytesBefore",
+                    "bytesAfter",
+                    "savedPct",
+                    "width",
+                    "height",
+                    "sha256",
+                    "kvKey",
+                    "strippedExif",
+                    "errors",
+                    "durationMs"
+                ]
+            },
+            "display": {
+                "component": "table",
+                "properties": {
+                    "sourceUrl": { "label": "Source URL", "format": "text" },
+                    "status": { "label": "Status", "format": "text" },
+                    "format": { "label": "Format", "format": "text" },
+                    "contentType": { "label": "Type", "format": "text" },
+                    "bytesBefore": { "label": "Bytes before", "format": "number" },
+                    "bytesAfter": { "label": "Bytes after", "format": "number" },
+                    "savedPct": { "label": "Saved %", "format": "number" },
+                    "width": { "label": "W", "format": "number" },
+                    "height": { "label": "H", "format": "number" },
+                    "sha256": { "label": "SHA-256", "format": "text" },
+                    "kvKey": { "label": "KV key", "format": "text" },
+                    "strippedExif": { "label": "EXIF stripped", "format": "boolean" },
+                    "errors": { "label": "Errors", "format": "text" },
+                    "durationMs": { "label": "ms", "format": "number" }
+                }
+            }
+        }
+    }
+}
